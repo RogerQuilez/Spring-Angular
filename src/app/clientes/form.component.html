@@ -1,0 +1,82 @@
+<div class="conatiner">
+  <ul class="alert alert-danger my-2" *ngIf="errors != null">
+    <li *ngFor="let err of errors">{{err}}</li>
+  </ul>
+  <div class="card bg-dark text-white my-3">
+    <div class="card-header">{{ titulo }}</div>
+    <div class="card-body">
+      <form #clienteForm="ngForm">
+        <div class="form-group row">
+          <label for="nombre" class="col-form-label colr-sm-2">Nombre</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" [(ngModel)]="cliente.nombre" name="nombre" required minlength="4" #nombre="ngModel">
+              <div class="alert alert-danger my-2" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"> <!--Dirty muestra el mensaje de error mientras escribimos y touched cuando salimos-->
+                <div *ngIf="nombre.errors.required">
+                  El campo nombre es obligatorio
+                </div>
+                <div *ngIf="nombre.errors.minlength">
+                  El campo nombre debe tener como mínimo 4 caracteres
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="apellido" class="col-form-label colr-sm-2">Apellido</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" [(ngModel)]="cliente.apellido" name="apellido" required minlength="4" #apellido="ngModel">
+              <div class="alert alert-danger my-2" *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)"> <!--Dirty muestra el mensaje de error mientras escribimos y touched cuando salimos-->
+                <div *ngIf="apellido.errors.required">
+                  El campo apellido es obligatorio
+                </div>
+                <div *ngIf="apellido.errors.minlength">
+                  El campo apellido debe tener como mínimo 4 caracteres
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="email" class="col-form-label colr-sm-2">Email</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" [(ngModel)]="cliente.email" name="email" required minlength="4" #email="ngModel">
+              <div class="alert alert-danger my-2" *ngIf="email.invalid && (email.dirty || email.touched)"> <!--Dirty muestra el mensaje de error mientras escribimos y touched cuando salimos-->
+                <div *ngIf="email.errors.required">
+                  El campo email es obligatorio
+                </div>
+                <div *ngIf="email.errors.minlength">
+                  El campo email debe tener como mínimo 4 caracteres
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="createAt" class="col-form-label colr-sm-2">Fecha</label>
+            <div class="col-sm-3">
+              <input type="date" class="form-control" [(ngModel)]="cliente.createAt" name="createAt">
+            </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="region" class="col-form-label colr-sm-2">Región</label>
+            <div class="col-sm-3">
+              <select [compareWith]="compararRegion" class="form-control" [(ngModel)]="cliente.region" name="region">
+                <option [ngValue]="undefined">--Seleccionar Región--</option>
+                <option *ngFor="let region of regiones" [ngValue]="region">{{region.nombre}}</option>
+              </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <button class="btn btn-primary my-3" role="button" (click)='create()' *ngIf="!cliente.id else elseBlock" [disabled]="!clienteForm.form.valid">Crear</button>
+            <ng-template #elseBlock> <!--Bloque en caso de que exista la Id del cliente para actualizarlo-->
+              <button class="btn btn-primary my-3" role="button" (click)='update()' [disabled]="!clienteForm.form.valid">Editar</button>
+            </ng-template>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
